@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.pb.dao.QuestionMapper">
+
+	<!-- 查询所有question -->
+	<select id="findAll" resultMap="questionMap">
+		select id,title,detailDesc,answerCount,lastModified from questions order by lastModified desc 
+	</select>
+	
+	<resultMap type="Question" id="questionMap">
+		<id property="id" column="id"/>
+		<result property="title" column="title"/>
+		<result property="detailDesc" column="detailDesc"/>
+		<result property="answerCount" column="answerCount"/>
+		<result property="lastModified" column="lastModified"/>
+		
+		<!--关联集合属性-->
+		<collection property="answers" ofType="Answer" select="answerDetail" column="id"/>
+	</resultMap>
+	
+	<!-- 查询question的answer -->
+	<select id="answerDetail" resultType="Answer">
+		select id,ansContent,ansDate,qid from answers where qid=#{xxx}
+	</select>
+	
+	
+	<!-- 新增question -->
+	<insert id="add" parameterType="Question">
+		insert into questions (title,detailDesc,answerCount,lastModified)
+		 values(#{title},#{detailDesc},#{answerCount},#{lastModified})
+	</insert>
+	
+	
+	<!-- 根据id查询 -->
+	<select id="findById" parameterType="java.lang.Integer" resultMap="questionMap">
+		select id,title,detailDesc,answerCount,lastModified 
+		from questions where id=#{xxx}
+	</select>
+</mapper>
