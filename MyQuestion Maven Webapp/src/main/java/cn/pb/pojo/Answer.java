@@ -8,6 +8,7 @@ import java.util.Date;
 public class Answer {
 	/**
 	  还不错！
+	  小样！
 	*/
 	private Integer id;// 答案编号 主键
 	private String ansContent;// 答案内容
